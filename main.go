@@ -7,44 +7,53 @@ import (
 )
 
 func main() {
-	// Укажите токен вашего бота
+	// Создаём бота
 	bot, err := tgbotapi.NewBotAPI("5471771233:AAHMkVW2hezXa7xak2gVirWzhBj8XaQ_xh8")
 	if err != nil {
 		log.Panic(err)
 	}
 
-	bot.Debug = true
+	// Выводим информацию об авторизации
 	log.Printf("Авторизован как %s", bot.Self.UserName)
 
-	// Обработка /start команды
+	// Удаляем существующий вебхук
+	_, err = bot.Request(tgbotapi.DeleteWebhookConfig{})
+	if err != nil {
+		log.Fatalf("Ошибка удаления вебхука: %v", err)
+	}
+	log.Println("Вебхук успешно удалён.")
+
+	// Используем метод getUpdates
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
 	updates := bot.GetUpdatesChan(u)
 
-	for update := range updates {
-		if update.Message != nil && update.Message.Text == "/start" {
-			// Создание кнопок
-			button1 := tgbotapi.NewInlineKeyboardButtonURL("1 Комп", "https://calendar.google.com/calendar/u/0/r/eventedit?text=Бронь+1+Комп")
-			button2 := tgbotapi.NewInlineKeyboardButtonURL("2 Комп", "https://calendar.google.com/calendar/u/0/r/eventedit?text=Бронь+2+Комп")
-			button3 := tgbotapi.NewInlineKeyboardButtonURL("3 Комп", "https://calendar.google.com/calendar/u/0/r/eventedit?text=Бронь+3+Комп")
-      
-			// Создание клавиатуры
-			keyboard := tgbotapi.NewInlineKeyboardMarkup(
-				tgbotapi.NewInlineKeyboardRow(button1),
-				tgbotapi.NewInlineKeyboardRow(button2),
-				tgbotapi.NewInlineKeyboardRow(button3),
-			)
+	// Создаём кнопки
+	buttons := tgbotapi.NewInlineKeyboardMarkup(
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonURL("1 Комп", "https://calendar.app.google/rzNw1mfuGbxvbGj16"),
+			tgbotapi.NewInlineKeyboardButtonURL("2 Комп", "https://calendar.app.google/puEEuwoG9AFGnQPe7"),
+		),
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonURL("3 Комп", "https://calendar.app.google/puEEuwoG9AFGnQPe7"),
+			tgbotapi.NewInlineKeyboardButtonURL("4 Комп", "https://calendar.google.com/4"),
+		),
+	)
 
-			// Отправка сообщения с кнопками
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Выберите компьютер для бронирования:")
-			msg.ReplyMarkup = keyboard
+	// Обрабатываем входящие сообщения
+	for update := range updates {
+		if update.Message != nil { // Если есть сообщение
+			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+			// Отправляем сообщение с кнопками
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Выберите компьютер:")
+			msg.ReplyMarkup = buttons
 
 			_, err := bot.Send(msg)
 			if err != nil {
-				log.Panic(err)
+				log.Printf("Ошибка отправки сообщения: %v", err)
 			}
 		}
 	}
 }
-
