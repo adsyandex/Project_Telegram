@@ -32,12 +32,12 @@ func main() {
 	// Создаём кнопки
 	buttons := tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonURL("🖥️ 1 Компьютер 🛜", "https://calendar.app.google/rzNw1mfuGbxvbGj16"),
-			tgbotapi.NewInlineKeyboardButtonURL("💻 2 Компьютер 🎮", "https://calendar.app.google/puEEuwoG9AFGnQPe7"),
+			tgbotapi.NewInlineKeyboardButtonURL("🖥️ 1 Компьютер ☕🍔", "https://calendar.app.google/rzNw1mfuGbxvbGj16"),
+			tgbotapi.NewInlineKeyboardButtonURL("💻 2 Компьютер 🍸🍰", "https://calendar.app.google/puEEuwoG9AFGnQPe7"),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonURL("🎰 3 Компьютер 🧩", "https://calendar.app.google/dJk6Q9d37t6zBdMu5"),
-			tgbotapi.NewInlineKeyboardButtonURL("🚫 4 Компьютер 🕸️", "https://calendar.google.com/4"),
+			tgbotapi.NewInlineKeyboardButtonURL("🎰 3 Компьютер 🍹🌭", "https://calendar.app.google/dJk6Q9d37t6zBdMu5"),
+			tgbotapi.NewInlineKeyboardButtonURL("🚫 4 Компьютер 🧃🥪", "https://calendar.google.com/4"),
 		),
 	)
 
