@@ -47,7 +47,7 @@ func main() {
 			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
 			// Отправляем сообщение с кнопками
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Выберите мастера:")
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Выберите компьютер:")
 			msg.ReplyMarkup = buttons
 
 			_, err := bot.Send(msg)
