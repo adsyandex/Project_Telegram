@@ -1,7 +1,8 @@
-package main 
+package main
 
 import (
 	"log"
+	"net/http"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -16,18 +17,31 @@ func main() {
 	// Выводим информацию об авторизации
 	log.Printf("Авторизован как %s", bot.Self.UserName)
 
-	// Удаляем существующий вебхук
-	_, err = bot.Request(tgbotapi.DeleteWebhookConfig{})
+	// Указываем публичный URL для вебхука (замените YOUR_PUBLIC_URL на реальный URL)
+	webhookURL := "https://YOUR_PUBLIC_URL:8081"
+
+	// Устанавливаем вебхук
+	_, err = bot.Request(tgbotapi.NewWebhook(webhookURL))
 	if err != nil {
-		log.Fatalf("Ошибка удаления вебхука: %v", err)
+		log.Fatalf("Ошибка установки вебхука: %v", err)
 	}
-	log.Println("Вебхук успешно удалён.")
 
-	// Используем метод getUpdates
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
+	// Подтверждаем, что вебхук установлен
+	info, err := bot.GetWebhookInfo()
+	if err != nil {
+		log.Fatalf("Ошибка получения информации о вебхуке: %v", err)
+	}
+	if info.URL != webhookURL {
+		log.Fatalf("Установлен неправильный вебхук: %s", info.URL)
+	}
 
-	updates := bot.GetUpdatesChan(u)
+	// Обрабатываем обновления через вебхук
+	updates := bot.ListenForWebhook("/")
+
+	// Настраиваем сервер на порту 8081
+	go func() {
+		log.Fatal(http.ListenAndServe(":8081", nil))
+	}()
 
 	// Создаём кнопки
 	buttons := tgbotapi.NewInlineKeyboardMarkup(
@@ -56,4 +70,4 @@ func main() {
 			}
 		}
 	}
-}  
+}
