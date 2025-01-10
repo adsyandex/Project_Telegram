@@ -18,7 +18,7 @@ func main() {
 	log.Printf("Авторизован как %s", bot.Self.UserName)
 
 	// Указываем публичный URL для вебхука (замените YOUR_PUBLIC_URL на реальный URL)
-	webhookURL := "https://YOUR_PUBLIC_URL:8081"
+	webhookURL := "https://213.171.3.21:8081"
 
 	// Устанавливаем вебхук
 	_, err = bot.Request(tgbotapi.NewWebhook(webhookURL))
