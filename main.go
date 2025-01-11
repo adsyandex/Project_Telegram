@@ -25,11 +25,31 @@ func main() {
     }
     log.Println("Вебхук успешно удалён.")
 
-    // Используем метод getUpdates
-    u := tgbotapi.NewUpdate(0)
-    u.Timeout = 60
+    // Указываем публичный URL для вебхука (замените YOUR_PUBLIC_URL на реальный URL)
+    webhookURL := "https://adsyandex-project-telegram-041c.twc1.net:8081"
 
-    updates := bot.GetUpdatesChan(u)
+    // Устанавливаем вебхук
+    _, err = bot.Request(tgbotapi.NewWebhook(webhookURL))
+    if err != nil {
+        log.Fatalf("Ошибка установки вебхука: %v", err)
+    }
+
+    // Подтверждаем, что вебхук установлен
+    info, err := bot.GetWebhookInfo()
+    if err != nil {
+        log.Fatalf("Ошибка получения информации о вебхуке: %v", err)
+    }
+    if info.URL != webhookURL {
+        log.Fatalf("Установлен неправильный вебхук: %s", info.URL)
+    }
+
+    // Обрабатываем обновления через вебхук
+    updates := bot.ListenForWebhook("/")
+
+    // Настраиваем сервер на порту 8081
+    go func() {
+        log.Fatal(http.ListenAndServe(":8081", nil))
+    }()
 
     // Создаём кнопки
     buttons := tgbotapi.NewInlineKeyboardMarkup(
@@ -62,3 +82,5 @@ func main() {
     // Настраиваем Beego для запуска HTTP-сервера
     beego.Run()
 }
+
+
