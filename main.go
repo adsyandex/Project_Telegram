@@ -29,10 +29,13 @@ func main() {
     webhookURL := "https://adsyandex-project-telegram-041c.twc1.net:8081"
 
     // Устанавливаем вебхук
-    _, err = bot.Request(tgbotapi.NewWebhook(webhookURL))
-    if err != nil {
-        log.Fatalf("Ошибка установки вебхука: %v", err)
-    }
+	webhookConfig, err := tgbotapi.NewWebhookWithCert(webhookURL, nil) 
+	if err != nil { 
+		log.Fatalf("Ошибка создания конфигурации вебхука: %v", err) 
+		} 
+		_, err = bot.Request(webhookConfig) 
+		if err != nil { log.Fatalf("Ошибка установки вебхука: %v", err) 
+	}
 
     // Подтверждаем, что вебхук установлен
     info, err := bot.GetWebhookInfo()
@@ -82,5 +85,3 @@ func main() {
     // Настраиваем Beego для запуска HTTP-сервера
     beego.Run()
 }
-
-
