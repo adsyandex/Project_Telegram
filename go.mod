@@ -2,10 +2,12 @@ module Project_Telegram
 
 go 1.23.4
 
-require github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
+require (
+	github.com/astaxie/beego v1.12.3
+	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
+)
 
 require (
-	github.com/astaxie/beego v1.12.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/golang/protobuf v1.4.2 // indirect
