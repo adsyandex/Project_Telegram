@@ -15,8 +15,8 @@ func main() {
         log.Panic(err)
     }
 
-    updates := bot.ListenForWebhook("/")
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    updates := bot.ListenForWebhook("/webhook")
+    http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
         controller := &controllers.WebhookController{Bot: bot, Updates: updates}
         controller.HandleWebhook(w, r)
     })
