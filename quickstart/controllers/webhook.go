@@ -17,7 +17,7 @@ func (wc *WebhookController) HandleWebhook(w http.ResponseWriter, r *http.Reques
         if update.Message != nil {
             log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-            // Создаём кнопки
+            // buttons Создаём кнопки
             buttons := tgbotapi.NewInlineKeyboardMarkup(
                 tgbotapi.NewInlineKeyboardRow(
                     tgbotapi.NewInlineKeyboardButtonURL("🖥️ 1 Компьютер ☕🍔", "https://calendar.app.google/rzNw1mfuGbxvbGj16"),
