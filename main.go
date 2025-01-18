@@ -8,7 +8,7 @@ import (
 	"github.com/astaxie/beego"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
-
+   // main функция подключения IP бота
 func main() {
 	bot, err := tgbotapi.NewBotAPI("5471771233:AAHMkVW2hezXa7xak2gVirWzhBj8XaQ_xh8")
 	if err != nil {
