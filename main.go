@@ -33,17 +33,34 @@ func main() {
 	// 3. Настройка Webhook URL
 	// ВАЖНО: ЗАМЕНИТЕ "YOUR_APP_URL" на реальный URL вашего приложения на TimeWeb!
 	// Например: "https://my-cool-bot.timeweb.cloud"
-	webhookURL := os.Getenv("WEBHOOK_URL") + "/webhook" // Будет обрабатывать запросы на /webhook
+	/*webhookURL := os.Getenv("WEBHOOK_URL") + "/webhook" // Будет обрабатывать запросы на /webhook
 	wh, err := tgbotapi.NewWebhook(webhookURL)
 	if err != nil {
 		log.Fatal(err)
-	}
+	}*/
+    webhookURL := os.Getenv("WEBHOOK_URL")
+    if webhookURL == "" {
+       log.Println("WARNING: WEBHOOK_URL is not set. Webhook will not be set. Waiting for configuration...")
+    // Можно просто запустить сервер без установки вебхука, чтобы получить URL
+    // Или завершить работу с ошибкой, в зависимости от логики
+    } else {
+       wh, err := tgbotapi.NewWebhook(webhookURL + "/webhook")
+       if err != nil {
+           log.Fatal(err)
+    }
 
-	// 4. Установка Webhook'а у Telegram
+	/* 4. Установка Webhook'а у Telegram
 	_, err = bot.Request(wh)
 	if err != nil {
 		log.Fatal(err)
-	}
+	}*/
+    // 4. Установка Webhook'а у Telegram
+    _, err = bot.Request(wh)
+    if err != nil {
+        log.Fatal(err)  // Было log.Fatal(app) - это ошибка!
+    }
+    log.Printf("Webhook set to: %s", webhookURL)
+}
 
 	// 5. Настройка Gin HTTP-сервера
 	router := gin.Default()
