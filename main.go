@@ -38,7 +38,7 @@ func main() {
         ),
         tgbotapi.NewInlineKeyboardRow(
             tgbotapi.NewInlineKeyboardButtonURL("🎰 3 Компьютер 🍹🌭", "https://calendar.app.google/dJk6Q9d37t6zBdMu5"),
-            tgbotapi.NewInlineKeyboardButtonURL("🚫 4 Компьютер 🧃🥪", "https://calendar.google.com/4"),
+            tgbotapi.NewInlineKeyboardButtonURL("🕹️ 4 Компьютер 🧃🥪", "https://calendar.google.com/4"),
         ),
     )
 
